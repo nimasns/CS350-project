@@ -1,0 +1,29 @@
+Cartesian Points: 
+(54, 18)
+(10, -48)
+(2, 47)
+(68, 41)
+
+BruteForce:    Average execution time: 4155774
+QuickHull:     Average execution time: 721390
+TestAlgorithm: Average execution time: 610071
+
+BruteForce: Convex Hull Points: 
+(2, 47)
+(10, -48)
+(54, 18)
+(68, 41)
+
+
+QuickHull: Convex Hull Points: 
+(10, -48)
+(68, 41)
+(2, 47)
+(54, 18)
+
+
+Known Correct Test Algorithm: Convex Hull Points: 
+(10, -48)
+(68, 41)
+(2, 47)
+(54, 18)

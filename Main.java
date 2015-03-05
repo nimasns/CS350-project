@@ -36,7 +36,7 @@ public class Main {
 		int menuSelect = 0;
 		final int numberOfRuns = 25; 
 		final int base = 2;
-		int exponent = 9;		//increment this up to 10 to collect performance data
+		int exponent = 8;		//increment this up to 10 to collect performance data
 		int arraySize;
 		ArrayList<CartesianPoint> points = new ArrayList<CartesianPoint>();
 		Set<CartesianPoint> bruteForcePoints = new HashSet<CartesianPoint>();
@@ -118,6 +118,7 @@ public class Main {
 			System.out.println("Testing complete.  Writing to file.");
 			writeFile(points, bruteForcePoints, quickHullPoints, correctTestPoints, bruteForceTime, quickHullTime, knownTestTime);
 
+			testSuit(bruteForcePoints, quickHullPoints, correctTestPoints, bruteForceTime, quickHullTime, knownTestTime);
 			clearArrays(points, bruteForcePoints, quickHullPoints, correctTestPoints);
 			System.out.println("Done!");
 		} while (!quit);
@@ -536,22 +537,63 @@ public class Main {
 
 	}
 
-	private static void testSuite(ArrayList<CartesianPoint> points, Set<CartesianPoint> bruteForcePoints, Set<CartesianPoint> quickHullPoints, Set<CartesianPoint> correctTestPoints, long BruteForceTime, long QuickHullTime, long testAlgorithmTime) {
-		// Sort the bruteForcePoints
+private static void testSuit(Set<CartesianPoint> bruteForcePoints, Set<CartesianPoint> quickHullPoints, 
+								 Set<CartesianPoint> correctTestPoints, long BruteForceTime, 
+								 long QuickHullTime, long testAlgorithmTime) 
+	{
+		
+		ArrayList<CartesianPoint> brutelist = new ArrayList<CartesianPoint>();
+		ArrayList<CartesianPoint> quicklist = new ArrayList<CartesianPoint>();
+		ArrayList<CartesianPoint> testlist = new ArrayList<CartesianPoint>();
+
+		// Sort the BruteForce
+		for(CartesianPoint b : bruteForcePoints)
+			brutelist.add(new CartesianPoint( b.x, b.y ));
+		brutelist = bubbleSort(brutelist, brutelist.size()-1);
+
 		// Sort the quickHullPoints
+		for(CartesianPoint q : quickHullPoints)
+			quicklist.add(new CartesianPoint( q.x, q.y ));
+		quicklist = bubbleSort(quicklist, quicklist.size()-1);
+				
 		// Sort the testAlgorithm (known correct algorithm)
+		for(CartesianPoint t : correctTestPoints)
+			testlist.add(new CartesianPoint( t.x, t.y ));
+		testlist = bubbleSort(testlist, testlist.size()-1);
 
-		// Compare the contents of bruteForcePoints w/ quickHullPoints
-		// If (bruteForcePoints == quickHullPoints)		
-			// If(contents of bruteForcePoints is different than testAlgorithm)
-						// mark bruteForce and quickHull as incorrect
-		// Else
-			// If(contents of bruteForcePoints is different than testAlgorithm)
-						// mark bruteForce as incorrect
-			// If(contents of quickHullPoints is different than testAlgorithm)
-						// mark quickHullPoints as incorrect
+		for(int i=0; i < testlist.size(); i++) {
+			// Compare the contents of bruteForcePoints w/ quickHullPoints
+			if ((testlist.get(i).x == brutelist.get(i).x) && (testlist.get(i).y == brutelist.get(i).y) ) {
+				if((testlist.get(i).x == quicklist.get(i).x)&& (testlist.get(i).y == quicklist.get(i).y) ) {
+					System.out.println(" Perfect!!!! ");
+					System.out.println("(" + testlist.get(i).x + ", " + testlist.get(i).y + ")");
+				}else{
+					//Incorect quickhull
+					System.out.println(" Incorrect QuickHull");
+					System.out.println("(" + testlist.get(i).x + ", " + testlist.get(i).y + ")");
+				}
+			}else if((testlist.get(i).x == quicklist.get(i).x) && (testlist.get(i).y == quicklist.get(i).y)){
+				//incorrect bruteforce but correct quickhull
+				System.out.println(" Incorrect Bruteforce");
+				System.out.println("(" + testlist.get(i).x + ", " + testlist.get(i).y + ")");
+			}else{
+				System.out.println(" Both implemented algorithm have the wrong result!! Sorry!!");
+				System.out.println("(" + testlist.get(i).x + ", " + testlist.get(i).y + ")");
+			}
+		}
+		System.out.println("\n\n Number of bruteforce: " + brutelist.size());
+		System.out.println(" Number of QuickHull: " + quicklist.size());
+		System.out.println(" Number of test: " + testlist.size());
+		System.out.println(" BruteForce Time is: " + BruteForceTime);
+		System.out.println(" QuickHull Time is: " + QuickHullTime);
+		System.out.println(" Test Time is: " + testAlgorithmTime);
+
+		if( QuickHullTime < BruteForceTime )
+			System.out.println(" QuickHull is faster than BruteForce by: " + (BruteForceTime-QuickHullTime) );
+		else 
+			System.out.println(" QuickHull is faster than BruteForce by: " + (QuickHullTime-BruteForceTime) );
+		return;
 	}
-
 	// Clears all the data in the arrays passed in as arguments
 	private static void clearArrays(ArrayList<CartesianPoint> points, Set<CartesianPoint> bruteForcePoints, Set<CartesianPoint> quickHullPoints, Set<CartesianPoint> correctTestPoints) 
 	{
@@ -559,6 +601,35 @@ public class Main {
 		bruteForcePoints.clear();
 		quickHullPoints.clear();
 		correctTestPoints.clear();
+	}
+
+
+	private static ArrayList<CartesianPoint> bubbleSort(ArrayList<CartesianPoint> list, int length) {
+
+		for (int i = 0; i < length; i++) {
+			for (int j = 0; j < length - i; j++)
+	      	{
+	      		if (list.get(j).x > list.get(j+1).x)
+	         	{
+		         		int tempx = list.get(j).x;
+		              	int tempy = list.get(j).y;
+		              	list.get(j).x = list.get(j+1).x;
+		              	list.get(j).y = list.get(j+1).y;
+		              	list.get(j+1).x = tempx;
+		              	list.get(j+1).y = tempy;
+	        	}else if(list.get(j).x == list.get(j+1).x) {
+	        		if(list.get(j).y > list.get(j+1).y){
+		         		int tempx = list.get(j).x;
+		              	int tempy = list.get(j).y;
+		              	list.get(j).x = list.get(j+1).x;
+		              	list.get(j).y = list.get(j+1).y;
+		              	list.get(j+1).x = tempx;
+		              	list.get(j+1).y = tempy;
+	              	}
+	        	} 
+	      	} 
+	    }
+	    return list;
 	}
 
 
