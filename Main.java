@@ -66,10 +66,10 @@ public class Main {
 				String nameOfFile = in.next();
 				System.out.println();
 				errOpt = seedArray(points, nameOfFile);
-				if(errOpt == 2)
+				if(errOpt == 1)
 					System.out.println("Your file is formatted wrong!");
 				else if(errOpt == 2)
-					System.out.println("Your file name is wrong! (did you add \".txt\"?");
+					System.out.println("Your file name is wrong! (did you add \".txt\"?)");
 				else
 					break;
 			case 0:
@@ -159,7 +159,7 @@ public class Main {
 				
 				//if all evaluated points are on the same side of the line thru pair (i, j),
 				//then add the pair to hull
-				if (sides.size() == 1) 
+				if (sides.size() == 1 && !sides.contains(0)) 
 				{ 
 					hull.add(points.get(i));
 					hull.add(points.get(j));
@@ -483,7 +483,7 @@ public class Main {
 			return 2;	// File name can not be found
 		}
 		
-		return 0; // No error
+		return 3; // No error
 	}
 
 	// Prints the results to a log .txt file
