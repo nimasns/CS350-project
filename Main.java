@@ -36,7 +36,7 @@ public class Main {
 		int menuSelect = 0;
 		final int numberOfRuns = 25; 
 		final int base = 2;
-		int exponent = 8;		//increment this up to 10 to collect performance data
+		int exponent = 9;		//increment this up to 10 to collect performance data
 		int arraySize;
 		ArrayList<CartesianPoint> points = new ArrayList<CartesianPoint>();
 		Set<CartesianPoint> bruteForcePoints = new HashSet<CartesianPoint>();
@@ -503,6 +503,7 @@ public class Main {
 				writer.write("(" + points.get(i).x + ", " + points.get(i).y + ")\n");
 			}
 
+			writer.write("\nToatal number of nodes: " + arraySize);
 			writer.write("\nBruteForce:    Average execution time: " + BruteForceTime);
 			writer.write("\nQuickHull:     Average execution time: " + QuickHullTime);
 			writer.write("\nTestAlgorithm: Average execution time: " + testAlgorithmTime);

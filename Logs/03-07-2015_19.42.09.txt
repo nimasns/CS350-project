@@ -1,0 +1,54 @@
+Cartesian Points: 
+(-71, 27)
+(-62, 95)
+(-44, 84)
+(-14, 7)
+(46, 20)
+(42, -51)
+(-62, -99)
+(89, 0)
+(81, -41)
+(99, 62)
+(38, -79)
+(49, 99)
+(34, 21)
+(0, -2)
+(-62, 96)
+(-22, 85)
+
+Toatal number of nodes: 16
+BruteForce:    Average execution time: 25261259
+QuickHull:     Average execution time: 1739754
+TestAlgorithm: Average execution time: 1047720
+
+BruteForce: Convex Hull Points: 
+(-71, 27)
+(-62, -99)
+(-62, 96)
+(38, -79)
+(49, 99)
+(81, -41)
+(89, 0)
+(99, 62)
+
+
+QuickHull: Convex Hull Points: 
+(-62, 96)
+(81, -41)
+(89, 0)
+(99, 62)
+(38, -79)
+(-71, 27)
+(49, 99)
+(-62, -99)
+
+
+Known Correct Test Algorithm: Convex Hull Points: 
+(81, -41)
+(-62, 96)
+(89, 0)
+(38, -79)
+(99, 62)
+(-71, 27)
+(49, 99)
+(-62, -99)
