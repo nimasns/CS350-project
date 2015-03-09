@@ -36,7 +36,7 @@ public class Main {
 		int menuSelect = 0;
 		final int numberOfRuns = 25; 
 		final int base = 2;
-		int exponent = 9;		//increment this up to 10 to collect performance data
+		int exponent = 4;		//increment this up to 10 to collect performance data
 		int arraySize;
 		ArrayList<CartesianPoint> points = new ArrayList<CartesianPoint>();
 		Set<CartesianPoint> bruteForcePoints = new HashSet<CartesianPoint>();
@@ -252,7 +252,12 @@ public class Main {
 		//If points is empty return
 		if(points.isEmpty())
 			return;
-		
+    if(points.size() == 1)
+    {
+		  hull.add(points.get(0));
+		  return;
+    }
+
 		a1 = p2.y - p1.y;
 		b1 = p1.x - p2.x;
 		
@@ -304,13 +309,8 @@ public class Main {
 
 	 private static Set<CartesianPoint> testAlgorithm(ArrayList<CartesianPoint> points)
     {
-        //Set<CartesianPoint> convexHull = new HashSet<CartesianPoint>();
 				ArrayList<CartesianPoint> convexHull = new ArrayList<CartesianPoint>();
 	
-
-//        if (points.size() < 3)
-//            return (ArrayList) points.clone();
-
         int minPoint = -1, maxPoint = -1;
         int minX = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
@@ -335,9 +335,6 @@ public class Main {
         convexHull.add(A);
         convexHull.add(B);
 
-        //points.remove(A);
-        //points.remove(B);
-
         ArrayList<CartesianPoint> leftSet = new ArrayList<CartesianPoint>();
         ArrayList<CartesianPoint> rightSet = new ArrayList<CartesianPoint>();
 
@@ -350,14 +347,11 @@ public class Main {
                 rightSet.add(p);
         }
 
-				//ArrayList<CartesianPoint> listConvexHull = new ArrayList<CartesianPoint>(convexHull);
-	
         hullSet(A, B, rightSet, convexHull);
         hullSet(B, A, leftSet, convexHull);
 
 				Set<CartesianPoint> setConvexHull = new HashSet<CartesianPoint>(convexHull);
 
-        //return convexHull;
 				return setConvexHull;
     }
 
@@ -383,7 +377,6 @@ public class Main {
         if (set.size() == 1)
         {
             CartesianPoint p = set.get(0);
-            //set.remove(p);
             hull.add(insertPosition, p);
             return;
         }
@@ -403,10 +396,7 @@ public class Main {
         }
 
         CartesianPoint P = set.get(furthestPoint);
-        //set.remove(furthestPoint);
         hull.add(insertPosition, P);
-
-        // Determine who's to the left of AP
 
         ArrayList<CartesianPoint> leftSetAP = new ArrayList<CartesianPoint>();
 
@@ -418,8 +408,6 @@ public class Main {
                 leftSetAP.add(M);
             }
         }
-
-        // Determine who's to the left of PB
 
         ArrayList<CartesianPoint> leftSetPB = new ArrayList<CartesianPoint>();
 
@@ -635,5 +623,3 @@ private static void testSuit(Set<CartesianPoint> bruteForcePoints, Set<Cartesian
 
 
 }
-
-
