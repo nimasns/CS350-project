@@ -1,0 +1,143 @@
+Cartesian Points: 
+(-62, -34)
+(-49, 92)
+(8, 64)
+(-8, 16)
+(81, -45)
+(-58, 78)
+(16, -39)
+(55, -34)
+(-20, 2)
+(92, -83)
+(-7, -73)
+(-16, 23)
+(-81, -6)
+(-20, -5)
+(71, 66)
+(39, -90)
+(-9, 75)
+(-48, 76)
+(76, 83)
+(71, 71)
+(85, -5)
+(59, 76)
+(92, 82)
+(-82, 80)
+(40, 65)
+(60, -90)
+(-34, -4)
+(39, 20)
+(11, 5)
+(-59, 25)
+(2, 9)
+(26, 95)
+(-89, 67)
+(23, 92)
+(-67, -80)
+(-61, -68)
+(65, 23)
+(-2, -20)
+(-55, -83)
+(10, -32)
+(37, 77)
+(98, -18)
+(-72, 12)
+(-80, 63)
+(77, 13)
+(18, 98)
+(22, 87)
+(-60, 30)
+(41, -65)
+(83, 63)
+(-47, -72)
+(21, -57)
+(-70, 4)
+(11, 37)
+(-87, 80)
+(13, -11)
+(9, 23)
+(44, -88)
+(-23, -3)
+(23, 46)
+(-66, -3)
+(91, 73)
+(-87, 38)
+(-30, 33)
+
+
+
+*******TIME TO EXECUTE (nanoseconds)*******
+   BruteForce:  Average execution time:  207944192
+    QuickHull:  Average execution time:  2200966
+TestAlgorithm:  Average execution time:  2492183
+**QuickHull is faster than BruteForce by: 205743226**
+
+*******NUMBER OF NODES*******
+Toatal number of nodes: 64
+Number of bruteforce: 13
+Number of QuickHull: 13
+Number of TestAlgorithm: 13
+
+*******CHECK THE CONVEX HULL POINTS FOR CORRECTNESS*******
+(-89, 67): Perfect for QuickHull & BruteForce 
+(-87, 38): Perfect for QuickHull & BruteForce 
+(-87, 80): Perfect for QuickHull & BruteForce 
+(-81, -6): Perfect for QuickHull & BruteForce 
+(-67, -80): Perfect for QuickHull & BruteForce 
+(-55, -83): Perfect for QuickHull & BruteForce 
+(-49, 92): Perfect for QuickHull & BruteForce 
+(18, 98): Perfect for QuickHull & BruteForce 
+(39, -90): Perfect for QuickHull & BruteForce 
+(60, -90): Perfect for QuickHull & BruteForce 
+(92, -83): Perfect for QuickHull & BruteForce 
+(92, 82): Perfect for QuickHull & BruteForce 
+(98, -18): Perfect for QuickHull & BruteForce 
+
+**************ALGORITHM POINTS**************
+
+BruteForce: Convex Hull Points: 
+(-89, 67)
+(-87, 38)
+(-87, 80)
+(-81, -6)
+(-67, -80)
+(-55, -83)
+(-49, 92)
+(18, 98)
+(39, -90)
+(60, -90)
+(92, -83)
+(92, 82)
+(98, -18)
+
+
+QuickHull: Convex Hull Points: 
+(92, 82)
+(-87, 80)
+(60, -90)
+(98, -18)
+(-89, 67)
+(-81, -6)
+(-87, 38)
+(18, 98)
+(-67, -80)
+(-49, 92)
+(39, -90)
+(92, -83)
+(-55, -83)
+
+
+TestAlgorithm (Known Correct): Convex Hull Points: 
+(60, -90)
+(-87, 80)
+(92, 82)
+(98, -18)
+(-89, 67)
+(-81, -6)
+(-87, 38)
+(18, 98)
+(-67, -80)
+(-49, 92)
+(39, -90)
+(92, -83)
+(-55, -83)

@@ -36,7 +36,7 @@ public class Main {
 		int menuSelect = 0;
 		final int numberOfRuns = 25; 
 		final int base = 2;
-		int exponent = 25;		//increment this up to 10 to collect performance data
+		int exponent = 6;		//increment this up to 10 to collect performance data
 		int arraySize;
 		ArrayList<CartesianPoint> points = new ArrayList<CartesianPoint>();
 		Set<CartesianPoint> bruteForcePoints = new HashSet<CartesianPoint>();
@@ -85,12 +85,10 @@ public class Main {
 			System.out.println("\n\n   Executing Brute Force Convex Hull " + numberOfRuns + " times.");
 			//begin measuring the execution time
 			long startUserTimeNano = System.nanoTime();
-			//for (i = 0; i < numberOfRuns; i++)
-			for (i = 0; i < 1; i++) 
+			for (i = 0; i < numberOfRuns; i++)
 			{
 				//run brute force version numberOfRuns times
-				//bruteForcePoints = BruteForceConvexHull(points);
-				bruteForcePoints = QuickHull(points);
+				bruteForcePoints = BruteForceConvexHull(points);
 			}
 			// stop the time and calculate difference
 			long bruteForceTime = System.nanoTime() - startUserTimeNano;
