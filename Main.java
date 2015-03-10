@@ -36,7 +36,7 @@ public class Main {
 		int menuSelect = 0;
 		final int numberOfRuns = 25; 
 		final int base = 2;
-		int exponent = 4;		//increment this up to 10 to collect performance data
+		int exponent = 25;		//increment this up to 10 to collect performance data
 		int arraySize;
 		ArrayList<CartesianPoint> points = new ArrayList<CartesianPoint>();
 		Set<CartesianPoint> bruteForcePoints = new HashSet<CartesianPoint>();
@@ -82,43 +82,45 @@ public class Main {
 				System.exit(1);
 			}
 
-			System.out.println("\n\nExecuting Brute Force Convex Hull " + numberOfRuns + " times.");
+			System.out.println("\n\n   Executing Brute Force Convex Hull " + numberOfRuns + " times.");
 			//begin measuring the execution time
 			long startUserTimeNano = System.nanoTime();
-			for (i = 0; i < numberOfRuns; i++) 
+			//for (i = 0; i < numberOfRuns; i++)
+			for (i = 0; i < 1; i++) 
 			{
-				//run brute force version 25 times
-				bruteForcePoints = BruteForceConvexHull(points);
+				//run brute force version numberOfRuns times
+				//bruteForcePoints = BruteForceConvexHull(points);
+				bruteForcePoints = QuickHull(points);
 			}
 			// stop the time and calculate difference
 			long bruteForceTime = System.nanoTime() - startUserTimeNano;
 		
-			System.out.println("Executing QuickHull " + numberOfRuns + " times.");
+			System.out.println("   Executing QuickHull " + numberOfRuns + " times.");
 			//begin measuring the execution time
 			startUserTimeNano = System.nanoTime();
 			for (i = 0; i < numberOfRuns; i++) 
 			{
-				//run quickhull algorithm 25 times
+				//run quickhull algorithm numberOfRuns times
 				quickHullPoints = QuickHull(points);
 			}
 			// stop the time and calculate difference
 			long quickHullTime = System.nanoTime() - startUserTimeNano;
 			
-			System.out.println("Executing Control Algorithm " + numberOfRuns + " times.");
+			System.out.println("   Executing Control Algorithm " + numberOfRuns + " times.\n");
 			//begin measuring the execution time
 			startUserTimeNano = System.nanoTime();
 			for (i = 0; i < numberOfRuns; i++) 
 			{
-				//run known correct algorithm 25 times
+				//run known correct algorithm numberOfRuns times
 				correctTestPoints = testAlgorithm(points);
 			}
 			// stop the time and calculate difference
 			long knownTestTime = System.nanoTime() - startUserTimeNano;
 			
-			System.out.println("Testing complete.  Writing to file.");
+			System.out.println("Testing complete.\nWrite to file.");
+			System.out.println("\nLog File in: \\logs\\");
 			writeFile(points, bruteForcePoints, quickHullPoints, correctTestPoints, bruteForceTime, quickHullTime, knownTestTime);
 
-			testSuit(bruteForcePoints, quickHullPoints, correctTestPoints, bruteForceTime, quickHullTime, knownTestTime);
 			clearArrays(points, bruteForcePoints, quickHullPoints, correctTestPoints);
 			System.out.println("Done!");
 		} while (!quit);
@@ -491,11 +493,22 @@ public class Main {
 				writer.write("(" + points.get(i).x + ", " + points.get(i).y + ")\n");
 			}
 
-			writer.write("\nToatal number of nodes: " + arraySize);
-			writer.write("\nBruteForce:    Average execution time: " + BruteForceTime);
-			writer.write("\nQuickHull:     Average execution time: " + QuickHullTime);
-			writer.write("\nTestAlgorithm: Average execution time: " + testAlgorithmTime);
+			writer.write("\n\n\n*******TIME TO EXECUTE (nanoseconds)*******");
+			writer.write("\n   BruteForce:  Average execution time:  " + BruteForceTime);
+			writer.write("\n    QuickHull:  Average execution time:  " + QuickHullTime);
+			writer.write("\nTestAlgorithm:  Average execution time:  " + testAlgorithmTime);
 
+
+			if(QuickHullTime < BruteForceTime)
+				writer.write("\n**QuickHull is faster than BruteForce by: " + (BruteForceTime-QuickHullTime) + "**\n");
+		else 
+				writer.write("\nBruteForce is faster than QuickHull by: " + (QuickHullTime-BruteForceTime) + "**\n");
+
+			writer.write("\n*******NUMBER OF NODES*******");
+			writer.write("\nToatal number of nodes: " + arraySize);
+			testSuit(writer, bruteForcePoints, quickHullPoints, testAlgorithmPoints);
+
+			writer.write("\n**************ALGORITHM POINTS**************");
 			writer.write ("\n\nBruteForce: Convex Hull Points: \n");
 			for (CartesianPoint p : bruteForcePoints) 
 			{
@@ -508,7 +521,7 @@ public class Main {
 				writer.write("(" + s.x + ", " + s.y + ")\n");
 			}
 
-			writer.write ("\n\nKnown Correct Test Algorithm: Convex Hull Points: \n");
+			writer.write ("\n\nTestAlgorithm (Known Correct): Convex Hull Points: \n");
 			for (CartesianPoint t : testAlgorithmPoints) 
 			{
 				writer.write("(" + t.x + ", " + t.y + ")\n");
@@ -526,9 +539,7 @@ public class Main {
 
 	}
 
-private static void testSuit(Set<CartesianPoint> bruteForcePoints, Set<CartesianPoint> quickHullPoints, 
-								 Set<CartesianPoint> correctTestPoints, long BruteForceTime, 
-								 long QuickHullTime, long testAlgorithmTime) 
+private static void testSuit(BufferedWriter writer, Set<CartesianPoint> bruteForcePoints, Set<CartesianPoint> quickHullPoints, Set<CartesianPoint> correctTestPoints) 
 	{
 		
 		ArrayList<CartesianPoint> brutelist = new ArrayList<CartesianPoint>();
@@ -550,39 +561,43 @@ private static void testSuit(Set<CartesianPoint> bruteForcePoints, Set<Cartesian
 			testlist.add(new CartesianPoint( t.x, t.y ));
 		testlist = bubbleSort(testlist, testlist.size()-1);
 
-		for(int i=0; i < testlist.size(); i++) {
-			// Compare the contents of bruteForcePoints w/ quickHullPoints
-			if ((testlist.get(i).x == brutelist.get(i).x) && (testlist.get(i).y == brutelist.get(i).y) ) {
-				if((testlist.get(i).x == quicklist.get(i).x)&& (testlist.get(i).y == quicklist.get(i).y) ) {
-					System.out.println(" Perfect!!!! ");
-					System.out.println("(" + testlist.get(i).x + ", " + testlist.get(i).y + ")");
-				}else{
-					//Incorect quickhull
-					System.out.println(" Incorrect QuickHull");
-					System.out.println("(" + testlist.get(i).x + ", " + testlist.get(i).y + ")");
-				}
-			}else if((testlist.get(i).x == quicklist.get(i).x) && (testlist.get(i).y == quicklist.get(i).y)){
-				//incorrect bruteforce but correct quickhull
-				System.out.println(" Incorrect Bruteforce");
-				System.out.println("(" + testlist.get(i).x + ", " + testlist.get(i).y + ")");
-			}else{
-				System.out.println(" Both implemented algorithm have the wrong result!! Sorry!!");
-				System.out.println("(" + testlist.get(i).x + ", " + testlist.get(i).y + ")");
-			}
-		}
-		System.out.println("\n\n Number of bruteforce: " + brutelist.size());
-		System.out.println(" Number of QuickHull: " + quicklist.size());
-		System.out.println(" Number of test: " + testlist.size());
-		System.out.println(" BruteForce Time is: " + BruteForceTime);
-		System.out.println(" QuickHull Time is: " + QuickHullTime);
-		System.out.println(" Test Time is: " + testAlgorithmTime);
 
-		if( QuickHullTime < BruteForceTime )
-			System.out.println(" QuickHull is faster than BruteForce by: " + (BruteForceTime-QuickHullTime) );
-		else 
-			System.out.println(" QuickHull is faster than BruteForce by: " + (QuickHullTime-BruteForceTime) );
+		try {
+
+			writer.write("\nNumber of bruteforce: " + brutelist.size() + "\n");
+			writer.write("Number of QuickHull: " + quicklist.size() + "\n");
+			writer.write("Number of TestAlgorithm: " + testlist.size() + "\n");
+
+			writer.write("\n*******CHECK THE CONVEX HULL POINTS FOR CORRECTNESS*******\n");
+
+			for(int i=0; i < testlist.size(); i++) {
+				// Compare the contents of bruteForcePoints w/ quickHullPoints
+				if ((testlist.get(i).x == brutelist.get(i).x) && (testlist.get(i).y == brutelist.get(i).y) ) {
+					if((testlist.get(i).x == quicklist.get(i).x)&& (testlist.get(i).y == quicklist.get(i).y) ) {
+						writer.write("(" + testlist.get(i).x + ", " + testlist.get(i).y + "): ");
+						writer.write("Perfect for QuickHull & BruteForce \n");
+					}else{
+						//Incorect quickhull
+						writer.write("(" + testlist.get(i).x + ", " + testlist.get(i).y + "): ");
+						writer.write("Incorrect in QuickHull\n");
+					}
+				}else if((testlist.get(i).x == quicklist.get(i).x) && (testlist.get(i).y == quicklist.get(i).y)){
+					//incorrect bruteforce but correct quickhull
+					writer.write("(" + testlist.get(i).x + ", " + testlist.get(i).y + "): ");
+					writer.write("Incorrect in Bruteforce\n");
+				}else{
+					writer.write("(" + testlist.get(i).x + ", " + testlist.get(i).y + "): ");
+					writer.write("Incorrect in QuickHull & BruteForce\n");
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return;
 	}
+
 	// Clears all the data in the arrays passed in as arguments
 	private static void clearArrays(ArrayList<CartesianPoint> points, Set<CartesianPoint> bruteForcePoints, Set<CartesianPoint> quickHullPoints, Set<CartesianPoint> correctTestPoints) 
 	{
@@ -623,3 +638,4 @@ private static void testSuit(Set<CartesianPoint> bruteForcePoints, Set<Cartesian
 
 
 }
+
